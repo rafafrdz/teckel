@@ -16,8 +16,7 @@ lazy val core: Project =
       name           := "teckel-core",
       publish / skip := false,
       libraryDependencies ++= Seq(
-        spark.core,
-        spark.sql,
+        estatico.newtype,
         scalaTest.core,
         scalaTest.flatspec
       )
@@ -29,8 +28,12 @@ lazy val yaml: Project =
       name           := "teckel-yaml",
       publish / skip := false,
       libraryDependencies ++= Seq(
+        cats.core,
+        catsEffect.core,
         circe.generic,
         circe.yaml,
+        log4cats.core,
+        log4cats.slf4j,
         tofu.core,
         tofu.circe,
         scalaTest.core,
@@ -45,6 +48,10 @@ lazy val transformation: Project =
       name           := "teckel-transformation",
       publish / skip := false,
       libraryDependencies ++= Seq(
+        cats.core,
+        log4cats.core,
+        log4cats.slf4j,
+        catsEffect.core,
         scalaTest.core,
         scalaTest.flatspec
       )
