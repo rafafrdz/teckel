@@ -1,9 +1,17 @@
 package io.github.rafafrdz.teckel.transformation
 
+import cats.ApplicativeThrow
+import cats.implicits.{catsSyntaxApplicativeErrorId, catsSyntaxApplicativeId}
 import io.github.rafafrdz.teckel.core.Format
 
 object FormatT {
-  def from(format: String): Option[Format] =
+  def format[F[_]: ApplicativeThrow]: CoreFrom[F, String, Format] =
+    (value: String) => fromRaw(value) match {
+      case Some(f) => f.pure[F]
+      case None => new Exception(s"Invalid format: $value").raiseError[F, Format]
+    }
+
+  def fromRaw(format: String): Option[Format] =
     format.toLowerCase() match {
       case "csv"     => Option(Format.CSV)
       case "parquet" => Option(Format.Parquet)
