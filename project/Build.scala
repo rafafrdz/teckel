@@ -103,10 +103,8 @@ object Build extends AutoPlugin {
 
   lazy val assemblySettings = Seq(
     assembly / assemblyMergeStrategy := {
-      case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-      case x =>
-        val oldStrategy = (assembly / assemblyMergeStrategy).value
-        oldStrategy(x)
+      case PathList("META-INF", _*) => MergeStrategy.discard
+      case _                        => MergeStrategy.first
     },
     assembly / assemblyJarName := s"${name.value}-${version.value}.jar"
   )

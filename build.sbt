@@ -5,7 +5,7 @@ lazy val teckel: Project =
   project
     .in(file("."))
     .disablePlugins(AssemblyPlugin)
-    .aggregate(core, yaml)
+    .aggregate(core, yaml, transformation)
     .settings(
       name := "teckel"
     )
@@ -33,6 +33,18 @@ lazy val yaml: Project =
         circe.yaml,
         tofu.core,
         tofu.circe,
+        scalaTest.core,
+        scalaTest.flatspec
+      )
+    )
+
+lazy val transformation: Project =
+  (project in file("transformation"))
+    .dependsOn(core, yaml)
+    .settings(
+      name           := "teckel-transformation",
+      publish / skip := false,
+      libraryDependencies ++= Seq(
         scalaTest.core,
         scalaTest.flatspec
       )
